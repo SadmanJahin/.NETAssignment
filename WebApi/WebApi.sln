@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35506.116 d17.12
+VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{426C539B-BA71-416C-B292-FD7CDAADE86D}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Api", "Users.Api\Users.Api.csproj", "{896993C4-9C64-4A80-A711-DA659B5F402A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Services", "Users.Services\Users.Services.csproj", "{77ED0B5E-F702-41A1-B50C-3451A60FE38D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{1715BD74-B291-48ED-B0C5-C88F4CAF916C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,5 +41,6 @@ Global
 		{089EF1B8-1AA4-457A-8E32-F4C827076346} = {36B40538-ED29-42CB-AC06-8DFA115C1F1A}
 		{896993C4-9C64-4A80-A711-DA659B5F402A} = {089EF1B8-1AA4-457A-8E32-F4C827076346}
 		{77ED0B5E-F702-41A1-B50C-3451A60FE38D} = {089EF1B8-1AA4-457A-8E32-F4C827076346}
+		{1715BD74-B291-48ED-B0C5-C88F4CAF916C} = {36B40538-ED29-42CB-AC06-8DFA115C1F1A}
 	EndGlobalSection
 EndGlobal
