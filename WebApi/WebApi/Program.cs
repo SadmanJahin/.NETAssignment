@@ -1,6 +1,14 @@
+using Users.DataAccess.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+#region DBContext
+
+builder.Services.AddCustomDbContext(builder.Configuration);
+
+#endregion
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
