@@ -15,5 +15,7 @@ namespace Users.Application.Contracts
         Task<User> GetUserByIdAsync(long id);
         Task UpdateUserAsync(UserDto user);
         Task DeleteUserAsync(long id);
+        Task<long> CountUsersAsync(PageRequest request);
+        Task<PageResponse<User>> SearchUsersAsync(PageRequest request);
     }
 }

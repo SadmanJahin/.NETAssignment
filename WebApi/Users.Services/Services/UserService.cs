@@ -21,8 +21,8 @@ namespace Users.Application.Services
 
         public UserService(IConnectionFactory connectionFactory, IMapper mapper)
         {
-            _userRepository = connectionFactory.CreateUserRepository(StorageType.JSON);
-            _unitOfWork = connectionFactory.CreateUnitOfWork(StorageType.JSON);
+            _userRepository = connectionFactory.CreateUserRepository(StorageType.DB);
+            _unitOfWork = connectionFactory.CreateUnitOfWork(StorageType.DB);
             _mapper = mapper;
         }
         public async Task<User> CreateUserAsync(UserDto userDto)
@@ -57,6 +57,18 @@ namespace Users.Application.Services
             };
             await _userRepository.DeleteAsync(user);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<long> CountUsersAsync(PageRequest request)
+        {
+            var count = await _userRepository.CountUsers(request);
+            return count;
+        }
+
+        public async Task<PageResponse<User>> SearchUsersAsync(PageRequest request)
+        {
+            var response = await _userRepository.SearchUsers(request);
+            return response;
         }
     }
 }
