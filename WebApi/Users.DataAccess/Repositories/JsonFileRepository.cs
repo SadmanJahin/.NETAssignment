@@ -11,12 +11,10 @@ using Users.Core.Entities;
 
 public abstract class JsonFileRepository<T> : IGenericRepository<T> where T : class
 {
-    private readonly string _filePath;
     private readonly JsonContext _jsonContext;
     private List<T> data;
-    public JsonFileRepository(string filePath, JsonContext jsonContext)
+    public JsonFileRepository(JsonContext jsonContext)
     {
-        _filePath = filePath;
         _jsonContext = jsonContext;
     }
 

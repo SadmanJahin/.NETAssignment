@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Users.DataAccess.Data;
+using Users.DataAccess.Factory;
 using Users.DataAccess.Interfaces;
 using Users.DataAccess.Repositories;
 
@@ -20,12 +21,17 @@ namespace Users.DataAccess.Extensions
             {
                 options.UseSqlServer(configuration.GetConnectionString("DBConfig"));
             });
+
+            services.AddScoped<JsonContext>(provider =>
+            {
+                string config = configuration.GetConnectionString("JsonFilePath");
+                return new JsonContext(config);
+            });
         }
 
         public static void AddUserRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IConnectionFactory, ConnectionFactory>();
         }
     }
 }

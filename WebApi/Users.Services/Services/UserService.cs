@@ -8,6 +8,8 @@ using Users.DataAccess.Interfaces;
 using Users.Application.Contracts;
 using WebApi.Shared.Models;
 using AutoMapper;
+using Users.DataAccess.Factory;
+using WebApi.Shared.Enums;
 
 namespace Users.Application.Services
 {
@@ -17,10 +19,10 @@ namespace Users.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository,IUnitOfWork unitOfWork, IMapper mapper)
+        public UserService(IConnectionFactory connectionFactory, IMapper mapper)
         {
-            _userRepository = userRepository;
-            _unitOfWork = unitOfWork;
+            _userRepository = connectionFactory.CreateUserRepository(StorageType.JSON);
+            _unitOfWork = connectionFactory.CreateUnitOfWork(StorageType.JSON);
             _mapper = mapper;
         }
         public async Task<User> CreateUserAsync(UserDto userDto)

@@ -22,7 +22,7 @@ public class Program
 
         string filePath = "users.json";
         var jsonContext = new JsonContext(filePath);
-        var userRepository = new UserJsonRepository(filePath, jsonContext);
+        var userRepository = new UserJsonRepository(jsonContext);
         var unitofwork = new JsonUnitOfWork(jsonContext);
         await userRepository.SaveAsync(GetFakeUser());
         await unitofwork.SaveChangesAsync();
