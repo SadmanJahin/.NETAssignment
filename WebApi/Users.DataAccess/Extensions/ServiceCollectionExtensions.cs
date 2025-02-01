@@ -7,19 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Users.DataAccess.Data;
+using Users.DataAccess.Interfaces;
+using Users.DataAccess.Repositories;
 
 namespace Users.DataAccess.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static void AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DBConfig"));
             });
+        }
 
-            return services;
+        public static void AddUserRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

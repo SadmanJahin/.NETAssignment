@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Users.Core.Entities;
-using Users.Core.Enums;
 using Users.DataAccess.Data;
 
 public class Program
@@ -16,6 +15,8 @@ public class Program
 
         dbContext.Users.AddRangeAsync(users);
         dbContext.SaveChanges();
+
+        Console.WriteLine("SEEDING COMPLETED SUCCESSFULLY");
     }
 
 
@@ -35,7 +36,7 @@ public class Program
           .RuleFor(u => u.FirstName, f => f.Name.FirstName())  
           .RuleFor(u => u.LastName, f => f.Name.LastName()) 
           .RuleFor(u => u.Company, f => f.Company.CompanyName())  
-          .RuleFor(u => u.Gender, f => f.PickRandom<Gender>())  
+          .RuleFor(u => u.Gender, f => f.PickRandom(new[] { "M", "F", "O"}))  
           .RuleFor(u => u.Active, f => f.Random.Bool());  
 
         var contactFaker = new Faker<Contact>()

@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{089EF1B8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Api", "Users.Api\Users.Api.csproj", "{896993C4-9C64-4A80-A711-DA659B5F402A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Services", "Users.Services\Users.Services.csproj", "{77ED0B5E-F702-41A1-B50C-3451A60FE38D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Application", "Users.Services\Users.Application.csproj", "{77ED0B5E-F702-41A1-B50C-3451A60FE38D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{1715BD74-B291-48ED-B0C5-C88F4CAF916C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Items", "Shared.Models\Shared.Items.csproj", "{EC957C1C-3C37-4092-BB00-25587B9D8746}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Shared", "Shared.Models\WebApi.Shared.csproj", "{EC957C1C-3C37-4092-BB00-25587B9D8746}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.DataAccess", "Users.DataAccess\Users.DataAccess.csproj", "{645C80C8-C0B1-4939-9D8E-51F76D1E6CF0}"
 EndProject

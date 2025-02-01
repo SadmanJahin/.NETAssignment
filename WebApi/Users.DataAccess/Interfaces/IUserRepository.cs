@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Users.Core.Entities;
 
-namespace Users.Core.Enums
+namespace Users.DataAccess.Interfaces
 {
-    public enum Gender
+    public interface IUserRepository : IGenericRepository<User>
     {
-        Male = 'M',
-        Female = 'F',
-        Other = 'O'
     }
 }

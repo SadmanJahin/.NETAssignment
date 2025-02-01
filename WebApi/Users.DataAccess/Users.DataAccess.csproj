@@ -19,9 +19,4 @@
     <ProjectReference Include="..\Users.Domain\Users.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>
