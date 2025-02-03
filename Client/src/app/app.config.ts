@@ -5,6 +5,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { userApiInterceptor } from './features/interceptors/user-api.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,6 @@ export const appConfig: ApplicationConfig = {
         preset: Aura
       }
     }),
-    provideHttpClient(withInterceptors([]))
+    provideHttpClient(withInterceptors([userApiInterceptor]))
   ]
 };
