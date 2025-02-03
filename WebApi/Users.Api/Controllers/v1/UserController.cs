@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Users.Api.Validation;
 using Users.Application.Contracts;
 using Users.Core.Entities;
 using WebApi.Shared.Models;
@@ -108,6 +109,12 @@ namespace Users.Api.Controllers.v1
         {
             try
             {
+                PropertyValidator validator = new PropertyValidator();
+                var result = validator.Validate(request);
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.Errors.Select(item => item.ErrorMessage));
+                }
                 var response = await _userService.CountUsersAsync(request);
                 return Ok(response);
             }
@@ -124,6 +131,13 @@ namespace Users.Api.Controllers.v1
         {
             try
             {
+                PropertyValidator validator = new PropertyValidator();
+                var result = validator.Validate(request);
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.Errors.Select(item=> item.ErrorMessage));
+                }
+
                 var response = await _userService.SearchUsersAsync(request);
                 return Ok(response);
 
