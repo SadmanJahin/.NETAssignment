@@ -21,8 +21,8 @@ namespace Users.Application.Services
 
         public UserService(IConnectionFactory connectionFactory, IMapper mapper)
         {
-            _userRepository = connectionFactory.CreateUserRepository(StorageType.DB);
-            _unitOfWork = connectionFactory.CreateUnitOfWork(StorageType.DB);
+            _userRepository = connectionFactory.CreateUserRepository(StorageType.JSON);
+            _unitOfWork = connectionFactory.CreateUnitOfWork(StorageType.JSON);
             _mapper = mapper;
         }
         public async Task<User> CreateUserAsync(UserDto userDto)

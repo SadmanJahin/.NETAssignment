@@ -8,8 +8,9 @@ using System.Text.Json;
 using Users.DataAccess.Interfaces;
 using Users.DataAccess.Data;
 using Users.Core.Entities;
+using Users.Core.Interfaces;
 
-public abstract class JsonFileRepository<T> : IGenericRepository<T> where T : class
+public abstract class JsonFileRepository<T> : IGenericRepository<T> where T : class, IAddable
 {
     private readonly JsonContext _jsonContext;
     private List<T> data;
@@ -21,7 +22,7 @@ public abstract class JsonFileRepository<T> : IGenericRepository<T> where T : cl
     public async Task<T> GetAsync(long id)
     {
         var data = await _jsonContext.LoadDataAsync<T>();
-        return data.FirstOrDefault(item => item.GetHashCode() == id);
+        return data.FirstOrDefault(item => item.Id == id);
     }
 
     public async Task<IEnumerable<T>> GetAllAsync()

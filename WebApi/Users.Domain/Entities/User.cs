@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Users.Core.Interfaces;
 
 namespace Users.Core.Entities
 {
-    public class User
+    public class User : IAddable
     {
         [Key]
         public long Id { get; set; }
