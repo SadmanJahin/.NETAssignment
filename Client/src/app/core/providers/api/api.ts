@@ -21,7 +21,7 @@ export class ApiService {
         let requestURL = `${this.basicurl}/${endpoint}`;
         if (queryParamObject != null && queryParamObject != undefined) {
             let queryParamString = Object.keys(queryParamObject).map(param => param + '=' + queryParamObject[param]).join('&');
-        requestURL = requestURL + '/?' + queryParamString;
+            requestURL = requestURL + '/?' + queryParamString;
         }
 
         return this.http.get<T>(requestURL, {
@@ -42,4 +42,27 @@ export class ApiService {
         });
     }
 
+    putForBasicApi<T>(endpoint: any, body: any, options?: HttpHeaders) {
+        if (!options) {
+            options = new HttpHeaders({
+                "Content-Type": "application/json;charset=utf-8",
+            });
+            options = options.append("Accept", "application/json");
+        }
+        return this.http.put<T>(`${this.basicurl}/${endpoint}`, body, {
+            withCredentials: true
+        });
+    }
+
+    deleteForBasicApi<T>(endpoint: any, options?: HttpHeaders) {
+        if (!options) {
+            options = new HttpHeaders({
+                "Content-Type": "application/json;charset=utf-8",
+            });
+            options = options.append("Accept", "application/json");
+        }
+        return this.http.delete<T>(`${this.basicurl}/${endpoint}`, {
+            withCredentials: true
+        });
+    }
 } 

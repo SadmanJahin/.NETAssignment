@@ -1,1 +1,97 @@
-<p>user-detail works!</p>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between">
+        <h2> User Detail </h2>
+        <p-button severity="info" icon="pi pi-arrow-left" (onClick)="routeToUsersList()"/>
+    </div>
+    
+    <form [formGroup]="userForm">
+        <div class="row">
+            <div class="col-md-12 col-lg-6">
+                <label for="firstName">First Name</label>
+                <input class="form-control" id="firstName" pInputText formControlName="firstName" />
+                @if (userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched) {
+                <small class="text-danger"> First Name is required. </small>
+                }
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <label for="lastName">Last Name</label>
+                <input class="form-control" id="lastName" pInputText formControlName="lastName" />
+                @if (userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched) {
+                    <small class="text-danger"> Last Name is required. </small>
+                    }
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <label for="company">Company</label>
+                <input class="form-control" id="company" pInputText class="form-control" Text
+                    formControlName="company" />
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <label for="gender">Gender</label>
+                <p-dropdown class="w-100" id="gender" [options]="genders" optionLabel="name"  optionValue="value" formControlName="gender"></p-dropdown>
+            </div>
+
+            <div class="col-md-12 col-lg-6 d-flex my-2">
+                <label for="active">Active</label>
+                <p-checkbox id="active" binary="true" formControlName="active" class="mx-2"></p-checkbox>
+            </div>
+        </div>
+
+        <p-divider class="mt-2"></p-divider>
+        <h3>Contact Information</h3>
+        <div class="row grid">
+            <div class="col-md-12 col-lg-6">
+                <label for="phone">Phone</label>
+                <input class="form-control" id="phone" pInputText formControlName="phone" />
+                @if (userForm.get('phone')?.invalid && userForm.get('phone')?.touched) {
+                    <small class="text-danger">
+                        Enter a valid phone number (11 digits).
+                    </small>
+                }
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <label for="city">City</label>
+                <input class="form-control" id="city" pInputText formControlName="city" />
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <label for="address">Address</label>
+                <input class="form-control" id="address" pInputText formControlName="address" />
+            </div>
+
+            <div class="col-md-12 col-lg-6">
+                <label for="country">Country</label>
+                <input class="form-control" id="country" pInputText formControlName="country" />
+            </div>
+        </div>
+        <p-divider class="mt-4"></p-divider>
+        <h3>Role Information</h3>
+        <div class="row">
+            <div class="col-md-12 col-lg-6">
+                <label for="role">Role</label>
+                <input class="form-control" id="role" pInputText formControlName="roleName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-3 mt-3 d-flex">
+                <button label="Save" type="submit" class="p-mt-3 w-100" [style.width]="100" (click)="onSave()" [disabled]="userForm.invalid" pButton></button>
+            </div>
+            <div class="col-md-12 col-lg-3 mt-3 d-flex">
+                <button class="w-100 p-button-danger" (click)="deleteUser(id)" pButton>Delete</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if(requestOnProgress){
+    <div class="loading-container overlay">
+        <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+    </div>
+    
+}
+
+
+<p-toast (onClose)="onToasterClose($event)"/>

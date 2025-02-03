@@ -9,17 +9,24 @@ import { ButtonModule } from 'primeng/button';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { StringUtils } from '../../../../core/models/string-utils';
 import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabel } from 'primeng/floatlabel';
+import { TagModule } from 'primeng/tag';
+import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-users-list',
-  imports: [TableModule, ButtonModule, Paginator, CamelToTitleCasePipe, FormsModule],
+  imports: [TableModule, ButtonModule, Paginator, CamelToTitleCasePipe, FormsModule, InputTextModule, FloatLabel, TagModule],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.css'
 })
 export class UsersListComponent {
   private userService = inject(UserService);
+  private router = inject(Router);
   data: UserDto[] = []
-  columns: string[] = []
+  columns: string[] = [];
   ignoredColumns: string[] = ['contact', 'role'];
   defaultSortBy: Sort = {
     propertyName: 'transactionDate',
@@ -31,52 +38,51 @@ export class UsersListComponent {
   }
   filters: Filter[] | null = null;
   totalCount: number = 0;
+  isLoading: boolean = false;
 
   ngOnInit(): void {
+    this.setColumns();
+    this.setFilters();
     this.searchUsers();
   }
 
-  searchUsers() {
-    this.getUsersCount();
-    this.getUsersData();
+  async searchUsers(): Promise<void> {
+    this.resetPagination();
+    try {
+      await Promise.all([this.getUsersCount(), this.getUsersData()]);
+    }
+    catch (ex) {
+      this.isLoading = false;
+    }
   }
 
-  getUsersCount() {
+  async getUsersCount(): Promise<void> {
+    this.isLoading = true;
     const request: PageRequest = {
       filters: this.getfiltersWithoutEmptyValues(),
       sorts: null,
       pagination: null
-    }
-
-    this.userService.countUsers(request).subscribe({
-      next: (count: number) => {
-        this.totalCount = count;
-      },
-      error: (err: HttpErrorResponse) => {
-
-      }
-    })
+    };
+    const count: number = await firstValueFrom(this.userService.countUsers(request));
+    this.totalCount = count;
+    this.isLoading = false;
   }
 
-  getUsersData() {
+  async getUsersData(): Promise<void> {
+    this.isLoading = true;
     const request: PageRequest = {
       filters: this.getfiltersWithoutEmptyValues(),
       sorts: null,
       pagination: this.paginationInfo
-    }
+    };
 
-    this.userService.searchUsers(request).subscribe({
-      next: (resp: PageResponse<UserDto>) => {
-        if (resp.listResponseData && resp.listResponseData?.length > 0) {
-          this.columns = Object.keys(resp.listResponseData[0]).filter(item => !this.ignoredColumns.some(igCol => igCol == item));
-          this.setFilters();
-          this.data = resp.listResponseData;
-        }
-      },
-      error: (err: HttpErrorResponse) => {
+    const resp: PageResponse<UserDto> = await firstValueFrom(this.userService.searchUsers(request));
+    this.data = resp.listResponseData ?? [];
+    this.isLoading = false;
+  }
 
-      }
-    })
+  setColumns(): void {
+    this.columns = Object.keys(new UserDto()).filter(item => !this.ignoredColumns.some(igCol => igCol == item));
   }
 
   setFilters(): void {
@@ -98,5 +104,20 @@ export class UsersListComponent {
     this.paginationInfo.pageNo = (data.page || 0) + 1;
     this.paginationInfo.pageSize = data.rows || 25;
     this.getUsersData();
+  }
+
+  editUser(id: number): void {
+    this.router.navigate([`users/${id}`]);
+  }
+
+  resetPagination(): void {
+    this.paginationInfo.pageNo = 1;
+    this.paginationInfo.pageSize = 25;
+  }
+
+  resetFilter() {
+    this.resetPagination();
+    this.setFilters();
+    this.searchUsers();
   }
 }

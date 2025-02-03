@@ -23,4 +23,20 @@ export class UserService {
   searchUsers(pageRequest: PageRequest): Observable<PageResponse<UserDto>> {
     return this.apiService.postForBasicApi<PageResponse<UserDto>>(USER_ENDPOINTS.SEARCH_USERS_V1, pageRequest);
   }
+
+  getUserById(id: number): Observable<UserDto> {
+    return this.apiService.getForBasicApi(USER_ENDPOINTS.GET_BY_ID_USER_V1(id));
+  }
+
+  createUser(user: UserDto): Observable<any> {
+    return this.apiService.postForBasicApi(USER_ENDPOINTS.CREATE_USERS_V1, user);
+  }
+
+  updateUser(user: UserDto): Observable<void> {
+    return this.apiService.putForBasicApi<void>(USER_ENDPOINTS.UPDATE_USERS_V1, user);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.apiService.deleteForBasicApi<void>(USER_ENDPOINTS.DELETE_BY_ID_USER_V1(id));
+  }
 }

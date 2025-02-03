@@ -22,6 +22,10 @@ namespace Users.DataAccess.Repositories
             _databaseContext = databaseContext;
         }
 
+        public override async Task<User> GetAsync(long id)
+        {
+            return await _databaseContext.Users.Include(item => item.Contact).Include(item => item.Role).FirstOrDefaultAsync(item => item.Id == id);
+        }
         public async Task<long> CountUsers(PageRequest request)
         {
             var query = _databaseContext.Users.AsNoTracking().ApplyFilter(request);
