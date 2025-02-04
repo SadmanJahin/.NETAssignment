@@ -8,26 +8,33 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
-        //var connectionString = "Server=Sadman;Database=UserDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        await SeedSQLDataSource();
+        await SeedJsonDataSource();
+    }
 
-        //var dbContext = GetDBContext(connectionString);
 
-        var users = GetFakeUsers(1);
+    private static async Task SeedSQLDataSource()
+    { 
+        var connectionString = "Server=Sadman;Database=UserDB;Trusted_Connection=True;TrustServerCertificate=True;";
+        var dbContext = GetDBContext(connectionString);
+        var users = GetFakeUsers(100);
+        await dbContext.Users.AddRangeAsync(users);
+        await dbContext.SaveChangesAsync();
+        Console.WriteLine("SQL Database SEEDING COMPLETED SUCCESSFULLY");
 
-        //dbContext.Users.AddRangeAsync(users);
-        //dbContext.SaveChanges();
+    }
 
-        //Console.WriteLine("SQL Database SEEDING COMPLETED SUCCESSFULLY");
-        // Initialize the repository with a file path
-
+    private static async Task SeedJsonDataSource()
+    {
         string filePath = "users.json";
         var jsonContext = new JsonContext(filePath);
         var userRepository = new UserJsonRepository(jsonContext);
         var unitofwork = new JsonUnitOfWork(jsonContext);
         await userRepository.SaveAsync(GetFakeUser());
         await unitofwork.SaveChangesAsync();
-    }
+        Console.WriteLine("JSON FILE SEEDING COMPLETED SUCCESSFULLY");
 
+    }
 
     private static DatabaseContext GetDBContext(string connectionString)
     {
