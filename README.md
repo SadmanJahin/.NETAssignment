@@ -56,3 +56,10 @@ dotnet publish -c Release -o publish //backend
   docker build -t image
   docker run -p 8080:80 image
 ```
+
+## Database
+To change database connection connection strings can be changed from appsettings.json. SQL Server connection can be provided.
+After proper connection established, run command in the package manager console
+```bash
+ Update-Database
+```
