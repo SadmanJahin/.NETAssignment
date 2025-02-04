@@ -75,5 +75,19 @@ namespace Users.Api.Controllers.v1
 
             return NoContent();
         }
+
+        [HttpPost("count")]
+        public async Task<IActionResult> CountUser(PageRequest request)
+        {
+            var response = await _userService.CountUsersAsync(request);
+            return Ok(response);
+        }
+
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchUser(PageRequest request)
+        {
+            var response = await _userService.SearchUsersAsync(request);
+            return Ok(response);
+        }
     }
 }
