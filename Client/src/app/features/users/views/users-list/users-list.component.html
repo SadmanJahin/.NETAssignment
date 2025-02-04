@@ -1,0 +1,40 @@
+<p-button (click)="searchUsers()"> Search </p-button>
+@for (filter of filters; track $index) {
+    <label>{{filter.propertyName| camelToTitleCase}}</label>
+    <input [(ngModel)]="filter.value">
+}
+<p-table [value]="data" [tableStyle]="{ 'min-width': '50rem' }" [resizableColumns]="true" stripedRows>
+    <ng-template pTemplate="header">
+        <tr>
+            @for (col of columns; track $index) {
+            <th pResizableColumn [pSortableColumn]="col">
+                {{ col | camelToTitleCase}} <p-sortIcon [field]="col" />
+            </th>
+            }
+            @if (columns.length > 0) {
+            <th>
+                Action
+            </th>
+            }
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+        <tr>
+            @for (col of columns; track $index) {
+            <td>
+                {{ rowData[col] }}
+            </td>
+            }
+
+            <td>
+                <p-button severity="info" icon="pi pi-pencil" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-paginator [first]="(paginationInfo.pageNo - 1) * paginationInfo.pageSize"
+                [rows]="paginationInfo.pageSize" [totalRecords]="totalCount" (onPageChange)="pageChange($event)"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" [rowsPerPageOptions]="[15, 25, 40]"></p-paginator>
