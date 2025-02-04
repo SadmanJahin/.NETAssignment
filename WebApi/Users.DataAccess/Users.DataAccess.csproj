@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Shared.Models\WebApi.Shared.csproj" />
     <ProjectReference Include="..\Users.Domain\Users.Core.csproj" />
   </ItemGroup>
 
