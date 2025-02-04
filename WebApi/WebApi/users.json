@@ -1,0 +1,25 @@
+[
+  {
+    "Id": 1,
+    "FirstName": "John",
+    "LastName": "Wick",
+    "Company": "Hayes, Kessler and Abernathy",
+    "Gender": "M",
+    "Active": true,
+    "Contact": {
+      "Id": 0,
+      "Phone": "12345678910",
+      "City": "Oliverville New",
+      "Address": "9589 Wiegand Cove, Lianaport, Turkey",
+      "Country": "Czechia",
+      "UserId": 0,
+      "User": null
+    },
+    "Role": {
+      "Id": 0,
+      "Name": "Manager",
+      "UserId": 0,
+      "User": null
+    }
+  }
+]
