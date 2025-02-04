@@ -44,34 +44,4 @@ public abstract class JsonFileRepository<T> : IGenericRepository<T> where T : cl
     {
        await _jsonContext.DeleteAsync(entity);
     }
-
-    public async Task<IEnumerable<T>> Search(Expression<Func<T, bool>> predicate)
-    {
-        var data = await _jsonContext.LoadDataAsync<T>();
-        return data.AsQueryable().Where(predicate).ToList();
-    }
-
-    public async Task<IEnumerable<T>> Search(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> orderBy, bool sortDescending = true)
-    {
-        var data = await _jsonContext.LoadDataAsync<T>();
-        var query = data.AsQueryable().Where(predicate);
-
-        query = sortDescending
-            ? query.OrderByDescending(orderBy)
-            : query.OrderBy(orderBy);
-
-        return query.ToList();
-    }
-
-    public async Task<IEnumerable<T>> Search(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
-    {
-        var data = await _jsonContext.LoadDataAsync<T>();
-        return data.AsQueryable().Where(predicate).ToList();
-    }
-
-    public async Task<long> Count(Expression<Func<T, bool>> predicate)
-    {
-        var data = await _jsonContext.LoadDataAsync<T>();
-        return data.AsQueryable().Count(predicate);
-    }
 }
