@@ -13,11 +13,22 @@
             </p-floatlabel>
         </div>
         }
+    </div>
+
+    <div class="row mt-1 mb-2">
         <div class="col-md-4 col-lg-2 p-2">
-            <button class="w-100" (click)="searchUsers()" pButton> Search </button>
+            <button class="w-100" (click)="searchUsers()" pButton [icon]="'pi pi-search'"> Search </button>
         </div>
         <div class="col-md-4 col-lg-2 p-2">
-            <button class="w-100 p-button-contrast" (click)="resetFilter()" pButton> Clear </button>
+            <button class="w-100 p-button-contrast" (click)="resetFilter()" pButton [icon]="'pi pi-times'"> Clear
+            </button>
+        </div>
+        <div class="col-md-4 col-lg-2 p-2">
+            <button class="w-100 p-button-info" (click)="createNewUser()" pButton [icon]="'pi pi-plus'"> Create New User
+            </button>
+        </div>
+        <div class="col-md-4 col-lg-2 p-2">
+            <p-dropdown class="w-100"  [options]="dataSources" optionLabel="name"  optionValue="value" (onChange)="onDataSourceChange($event)"></p-dropdown>
         </div>
     </div>
 
@@ -44,7 +55,8 @@
                     @for (col of columns; track $index) {
                     @if (col == 'active') {
                     <td>
-                        <p-tag [severity]="rowData[col] ? 'success' : 'danger'" [value]="rowData[col] ? 'Active' : 'Inactive'" />
+                        <p-tag [severity]="rowData[col] ? 'success' : 'danger'"
+                            [value]="rowData[col] ? 'Active' : 'Inactive'" />
                     </td>
 
                     }

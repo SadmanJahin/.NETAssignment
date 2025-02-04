@@ -14,17 +14,19 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { TagModule } from 'primeng/tag';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
-import { NgClass } from '@angular/common';
+import { StorageType } from '../../../../core/enums/storage-type';
+import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-users-list',
-  imports: [TableModule, ButtonModule, Paginator, CamelToTitleCasePipe, FormsModule, InputTextModule, FloatLabel, TagModule],
+  imports: [TableModule, ButtonModule, Paginator, CamelToTitleCasePipe, FormsModule, InputTextModule, FloatLabel, TagModule, DropdownModule],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.css'
 })
 export class UsersListComponent {
   private userService = inject(UserService);
   private router = inject(Router);
+  dataSources = [{ name: 'SQL Database', value: StorageType.DB }, { name: 'JSON File Database', value: StorageType.JSON }];
   data: UserDto[] = []
   columns: string[] = [];
   ignoredColumns: string[] = ['contact', 'role'];
@@ -41,9 +43,18 @@ export class UsersListComponent {
   isLoading: boolean = false;
 
   ngOnInit(): void {
+    this.setHeaders();
     this.setColumns();
     this.setFilters();
     this.searchUsers();
+  }
+
+  createNewUser(): void {
+    this.router.navigate(['create-user']);
+  }
+
+  setHeaders(): void {
+    this.userService.setHeader(StorageType.DB);
   }
 
   async searchUsers(): Promise<void> {
@@ -118,6 +129,11 @@ export class UsersListComponent {
   resetFilter() {
     this.resetPagination();
     this.setFilters();
+    this.searchUsers();
+  }
+
+  onDataSourceChange(event: DropdownChangeEvent){
+    this.userService.setHeader(event.value);
     this.searchUsers();
   }
 }

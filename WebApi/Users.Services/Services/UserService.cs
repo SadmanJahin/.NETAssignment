@@ -10,6 +10,8 @@ using WebApi.Shared.Models;
 using AutoMapper;
 using Users.DataAccess.Factory;
 using WebApi.Shared.Enums;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace Users.Application.Services
 {
@@ -19,10 +21,12 @@ namespace Users.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UserService(IConnectionFactory connectionFactory, IMapper mapper)
+        public UserService(IConnectionFactory connectionFactory, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
-            _userRepository = connectionFactory.CreateUserRepository(StorageType.JSON);
-            _unitOfWork = connectionFactory.CreateUnitOfWork(StorageType.JSON);
+            var headerValue = GetCustomHeader(httpContextAccessor);
+            StorageType storageType = !headerValue.Equals(string.Empty) ? (StorageType)Convert.ToInt32(headerValue) : StorageType.DB;
+            _userRepository = connectionFactory.CreateUserRepository(storageType);
+            _unitOfWork = connectionFactory.CreateUnitOfWork(storageType);
             _mapper = mapper;
         }
         public async Task<User> CreateUserAsync(UserDto userDto)
@@ -69,6 +73,12 @@ namespace Users.Application.Services
         {
             var response = await _userRepository.SearchUsers(request);
             return response;
+        }
+
+        private string GetCustomHeader(IHttpContextAccessor httpContextAccessor)
+        {
+            var customHeader = httpContextAccessor.HttpContext?.Request.Headers["Storage-Type-Header"].ToString();
+            return customHeader;
         }
     }
 }

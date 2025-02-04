@@ -30,6 +30,12 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.AddAutoMapper(typeof(UserMapProfile));
 #endregion
 
+#region HttpContext Accessor
+
+builder.Services.AddHttpContextAccessor();
+
+#endregion
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
